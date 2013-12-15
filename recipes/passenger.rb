@@ -19,7 +19,7 @@
 
 packages = value_for_platform_family(
   %w[rhel]   => %w[ruby-devel curl-devel],
-  %w[debian] => %w[ruby-dev libcurl4-gnutls-dev]
+  %w[debian] => %w[passenger]
 )
 
 packages.each do |name|
@@ -27,12 +27,6 @@ packages.each do |name|
 end
 
 gem_package 'rake'
-
-gem_package 'passenger' do
-  action     :install
-  version    node['nginx']['passenger']['version']
-  gem_binary node['nginx']['passenger']['gem_binary'] if node['nginx']['passenger']['gem_binary']
-end
 
 template "#{node["nginx"]["dir"]}/conf.d/passenger.conf" do
   source 'modules/passenger.conf.erb'
@@ -42,5 +36,3 @@ template "#{node["nginx"]["dir"]}/conf.d/passenger.conf" do
   notifies :reload, 'service[nginx]'
 end
 
-node.run_state['nginx_configure_flags'] =
-  node.run_state['nginx_configure_flags'] | ["--add-module=#{node["nginx"]["passenger"]["root"]}/ext/nginx"]

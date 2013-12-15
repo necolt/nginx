@@ -36,11 +36,16 @@ when 'rhel', 'fedora'
 when 'debian'
   include_recipe 'apt::default'
 
+  package 'apt-transport-https' do
+    options "--force-yes"
+  end
+
   apt_repository 'nginx' do
     uri          node['nginx']['upstream_repository']
     distribution node['lsb']['codename']
-    components   %w[nginx]
+    components   %w[main]
     deb_src      true
-    key          'http://nginx.org/keys/nginx_signing.key'
+    keyserver    'keyserver.ubuntu.com'
+    key          '561F9B9CAC40B2F7'
   end
 end

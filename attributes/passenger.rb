@@ -23,8 +23,8 @@
 node.default['nginx']['passenger']['version'] = '3.0.19'
 
 if node['languages'].attribute?('ruby')
-  node.default['nginx']['passenger']['root'] = "#{node['languages']['ruby']['gems_dir']}/gems/passenger-#{node['nginx']['passenger']['version']}"
-  node.default['nginx']['passenger']['ruby'] = node['languages']['ruby']['ruby_bin']
+  node.default['nginx']['passenger']['root'] = "/usr/lib/ruby/vendor_ruby/phusion_passenger/locations.ini"
+  node.default['nginx']['passenger']['ruby'] = "/usr/bin/ruby"
 else
   Chef::Log.warn("node['languages']['ruby'] attribute not detected in #{cookbook_name}::#{recipe_name}")
   Chef::Log.warn("Install a Ruby for automatic detection of node['nginx']['passenger'] attributes (root, ruby)")

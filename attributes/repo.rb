@@ -29,5 +29,5 @@ when 'rhel', 'fedora'
     default['nginx']['upstream_repository'] = "http://nginx.org/packages/rhel/#{node['platform_version'].to_i}/$basearch/"
   end
 when 'debian'
-  default['nginx']['upstream_repository'] = "http://nginx.org/packages/#{node['platform']}"
+  default['nginx']['upstream_repository'] = "https://oss-binaries.phusionpassenger.com/apt/passenger"
 end
