@@ -48,3 +48,12 @@ service 'nginx' do
 end
 
 include_recipe 'nginx::commons'
+
+cookbook_file "#{node['nginx']['dir']}/mime.types" do
+  source 'mime.types'
+  owner  'root'
+  group  'root'
+  mode   '0644'
+  notifies :reload, 'service[nginx]'
+end
+
