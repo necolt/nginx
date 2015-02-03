@@ -25,7 +25,8 @@ if platform_family?('rhel')
     include_recipe 'yum-epel'
   elsif node['nginx']['repo_source'] == 'nginx'
     include_recipe 'nginx::repo'
-  elsif node['nginx']['repo_source'].nil?
+    package_install_opts = '--disablerepo=* --enablerepo=nginx'
+  elsif node['nginx']['repo_source'].to_s.empty?
     log "node['nginx']['repo_source'] was not set, no additional yum repositories will be installed." do
       level :debug
     end
@@ -37,7 +38,9 @@ elsif platform_family?('debian')
 end
 
 package node['nginx']['package_name'] do
+  options package_install_opts
   notifies :reload, 'ohai[reload_nginx]', :immediately
+  not_if 'which nginx'
 end
 
 service 'nginx' do

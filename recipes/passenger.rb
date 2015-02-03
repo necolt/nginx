@@ -30,11 +30,22 @@ end
 
 gem_package 'rake'
 
-template "#{node["nginx"]["dir"]}/conf.d/passenger.conf" do
+gem_package 'passenger' do
+  action     :install
+  version    node['nginx']['passenger']['version']
+  gem_binary node['nginx']['passenger']['gem_binary'] if node['nginx']['passenger']['gem_binary']
+end
+
+template "#{node['nginx']['dir']}/conf.d/passenger.conf" do
   source 'modules/passenger.conf.erb'
   owner  'root'
-  group  'root'
+  group  node['root_group']
   mode   '0644'
   notifies :reload, 'service[nginx]'
 end
 
+<<<<<<< HEAD
+=======
+node.run_state['nginx_configure_flags'] =
+  node.run_state['nginx_configure_flags'] | ["--add-module=#{node['nginx']['passenger']['root']}/ext/nginx"]
+>>>>>>> b5b74dff8d1d8fdeea70cede9050f5fd601e6fad
