@@ -44,8 +44,5 @@ template "#{node['nginx']['dir']}/conf.d/passenger.conf" do
   notifies :reload, 'service[nginx]'
 end
 
-<<<<<<< HEAD
-=======
 node.run_state['nginx_configure_flags'] =
   node.run_state['nginx_configure_flags'] | ["--add-module=#{node['nginx']['passenger']['root']}/ext/nginx"]
->>>>>>> b5b74dff8d1d8fdeea70cede9050f5fd601e6fad
